@@ -3,6 +3,12 @@
 A small plugin for Noctalia v5 that provides a small icon showing the currently
 selected layout mode, and provides launcher commands to swap between them.
 
+## Disclaimer
+
+AI has been used to generate a fair bit of the code in this repository. This
+plugin is only meant for personal use, and is only public to allow for
+declarative configuration of multiple hosts through NixOS.
+
 ## Usage
 
 Add this repository as a source and activate the plugin. See
@@ -26,8 +32,11 @@ programs.noctalia = {
     };
 
     # optional: add the icon declaratively to your bar (change bar names to fit)
+
+    widget.picker.type = "arreborn/mango-layout";
+
     bar.default.end = [
-        "arreborn/mango-layout:picker"
+        "picker"
     ];
 };
 ```

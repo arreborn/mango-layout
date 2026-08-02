@@ -49,6 +49,7 @@ local function onMonitorStreamLine(line)
 	end
 end
 
+applyGlyph(nil)
 noctalia.runStream("mmsg watch all-monitors", onMonitorStreamLine)
 
 function update()
