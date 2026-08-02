@@ -12,6 +12,13 @@ description  = "Layout switcher icon and launcher plugin for MangoWC"
 id    = "picker"
 entry = "widget.luau"
 
+  [[widget.setting]]
+  key              = "glyph"
+  type             = "glyph"
+  label_key        = "settings.glyph.label"
+  description_key  = "settings.glyph.description"
+  default          = "layout-filled"
+
 [[launcher_provider]]
 id                       = "search"
 entry                    = "launcher.luau"
