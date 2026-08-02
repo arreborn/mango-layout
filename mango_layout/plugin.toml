@@ -1,0 +1,20 @@
+id           = "arreborn/mango-layout"
+name         = "Mango Layout"
+version      = "1.0.0"
+plugin_api   = 13
+min_noctalia = "5.0.0"
+author       = "arreborn"
+license      = "MIT"
+icon         = "layout-filled"
+description  = "Layout switcher icon and launcher plugin for MangoWC"
+
+[[widget]]
+id    = "picker"
+entry = "widget.luau"
+
+[[launcher_provider]]
+id                       = "search"
+entry                    = "launcher.luau"
+prefix                   = "layout"
+glyph                    = "layout-filled"
+include_in_global_search = true

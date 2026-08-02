@@ -1,0 +1,12 @@
+[[plugin]]
+id           = "arreborn/mango-layout"
+name         = "Mango Layout"
+author       = "arreborn"
+version      = "1.0.0"
+min_noctalia = "5.0.0"
+license      = "MIT"
+icon         = "layout-filled"
+description  = "Launcher provider for switching Mango window manager layouts."
+deprecated   = false
+plugin_api   = 13
+tags         = ["mango", "layout", "wm"]
