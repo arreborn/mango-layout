@@ -11,6 +11,27 @@ information.
 
 ### NixOS
 
+Assuming you are configuring Noctalia through `homeManager`:
+
+```nix
+programs.noctalia = {
+    plugins = {
+        source = {
+            name = "arreborn";
+            kind = "git";
+            location = "https://github.com/arreborn/mango-layout";
+            enabled = true;
+        };
+        enabled = [ "arreborn/mango-layout" ];
+    };
+
+    # optional: add the icon declaratively to your bar (change bar names to fit)
+    bar.default.end = [
+        "arreborn/mango-layout:picker"
+    ];
+};
+```
+
 ### GUI
 
 Open **Settings -> Plugins**, click **Add source**, and enter:
