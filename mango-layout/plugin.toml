@@ -1,7 +1,7 @@
 id           = "arreborn/mango-layout"
 name         = "Mango Layout"
 version      = "1.0.0"
-plugin_api   = 23
+plugin_api   = 22
 min_noctalia = "5.0.0"
 author       = "arreborn"
 license      = "MIT"

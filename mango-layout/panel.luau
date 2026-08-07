@@ -15,9 +15,6 @@ local layoutList = {
 	{ sym = "VF", name = "vertical_fair",    label = "Vertical Fair",      glyph = "layout-board" },
 }
 
--- The symbol of whichever monitor mmsg currently reports as "active", since
--- `mmsg dispatch setlayout` has no monitor argument and always targets that
--- same monitor (see widget.luau's onClick, which relies on the same rule).
 local currentSym = nil
 
 local function render()
@@ -38,7 +35,7 @@ local function render()
 		}))
 	end
 
-	panel.render(ui.column({ gap = 8, align = "stretch" }, {
+	panel.render(ui.column({ flexGrow = 1, gap = 8, align = "stretch" }, {
 		ui.row({ key = "header", gap = 6, align = "center" }, {
 			ui.label({ key = "title", text = "Mango Layout", fontSize = 16, fontWeight = "bold", color = "on_surface" }),
 			ui.spacer({ key = "gap", flexGrow = 1 }),
