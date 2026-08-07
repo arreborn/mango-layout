@@ -1,7 +1,7 @@
 id           = "arreborn/mango-layout"
 name         = "Mango Layout"
 version      = "1.0.0"
-plugin_api   = 13
+plugin_api   = 23
 min_noctalia = "5.0.0"
 author       = "arreborn"
 license      = "MIT"
@@ -18,6 +18,14 @@ entry = "widget.luau"
   label_key        = "settings.glyph.label"
   description_key  = "settings.glyph.description"
   default          = "layout-filled"
+
+[[panel]]
+id              = "panel"
+entry           = "panel.luau"
+width           = 280
+height          = 460
+placement       = "attached"
+open_near_click = true
 
 [[launcher_provider]]
 id                       = "search"

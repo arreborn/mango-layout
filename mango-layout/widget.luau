@@ -57,5 +57,5 @@ function update()
 end
 
 function onClick()
-	noctalia.runAsync("mmsg dispatch switch_layout")
+	noctalia.togglePanel("arreborn/mango-layout:panel")
 end
