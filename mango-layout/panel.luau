@@ -1,5 +1,6 @@
 local layoutList = {
-	{ sym = "T",  name = "tile",             label = "Tile",               glyph = "layout-sidebar-right" },
+	{ sym = "LT", name = "tile",             label = "Left Tile",          glyph = "layout-sidebar-right" },
+	{ sym = "RT", name = "right_tile",       label = "Right Tile",         glyph = "layout-sidebar" },
 	{ sym = "S",  name = "scroller",         label = "Scroller",           glyph = "carousel-horizontal" },
 	{ sym = "M",  name = "monocle",          label = "Monocle",            glyph = "square" },
 	{ sym = "G",  name = "grid",             label = "Grid",               glyph = "layout-grid" },
@@ -8,7 +9,6 @@ local layoutList = {
 	{ sym = "DW", name = "dwindle",          label = "Dwindle",            glyph = "layout-2" },
 	{ sym = "CT", name = "center_tile",      label = "Center Tile",        glyph = "layout-distribute-vertical" },
 	{ sym = "VT", name = "vertical_tile",    label = "Vertical Tile",      glyph = "layout-rows" },
-	{ sym = "RT", name = "right_tile",       label = "Right Tile",         glyph = "layout-sidebar" },
 	{ sym = "VS", name = "vertical_scroller",label = "Vertical Scroller",  glyph = "carousel-vertical" },
 	{ sym = "VG", name = "vertical_grid",    label = "Vertical Grid",      glyph = "grid-dots" },
 	{ sym = "VD", name = "vertical_deck",    label = "Vertical Deck",      glyph = "chart-funnel" },
@@ -36,11 +36,6 @@ local function render()
 	end
 
 	panel.render(ui.column({ flexGrow = 1, gap = 8, align = "stretch" }, {
-		ui.row({ key = "header", gap = 6, align = "center" }, {
-			ui.label({ key = "title", text = "Mango Layout", fontSize = 16, fontWeight = "bold", color = "on_surface" }),
-			ui.spacer({ key = "gap", flexGrow = 1 }),
-			ui.button({ key = "close", glyph = "close", variant = "ghost", onClick = "onClosePanel" }),
-		}),
 		ui.scroll({ key = "layouts", flexGrow = 1, gap = 2 }, rows),
 	}))
 end
