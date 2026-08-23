@@ -167,7 +167,7 @@ local function notifyNewDevices(devices)
 	for _, device in ipairs(devices) do
 		currentPaths[device.path] = true
 		if sawInitialSnapshot and not knownPaths[device.path] then
-			notifySend(ICON_DETECTED, "Removable Drives", (device.label or device.path) .. " detected")
+			notifySend(ICON_DETECTED, "Drive", (device.label or device.path) .. " detected!")
 		end
 	end
 	knownPaths = currentPaths
@@ -240,7 +240,9 @@ local usingEventStream = noctalia.commandExists("udevadm") and noctalia.runStrea
 if usingEventStream then
 	noctalia.setUpdateInterval(EVENT_FALLBACK_POLL_INTERVAL_MS)
 else
-	noctalia.log("removable-drives: udevadm unavailable or monitor stream failed to start; falling back to interval polling")
+	noctalia.log(
+		"removable-drives: udevadm unavailable or monitor stream failed to start; falling back to interval polling"
+	)
 	noctalia.setUpdateInterval(POLL_INTERVAL_MS)
 end
 

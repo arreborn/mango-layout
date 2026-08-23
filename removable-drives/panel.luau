@@ -164,13 +164,13 @@ local function unmountDevice(path)
 			local name = displayName(current)
 			current.mounted = false
 			current.mountpoint = nil
-			notifySend(ICON_UNMOUNT, "It is now safe to unplug", name)
+			notifySend(ICON_UNMOUNT, "Drive can be safely removed:", name)
 		else
 			local reason = trim(result.stderr)
 			if reason == "" then
 				reason = "unknown error"
 			end
-			notifySend(ICON_ERROR, "Unmount failed", displayName(current) .. ": " .. reason, 8000)
+			notifySend(ICON_ERROR, "Unmount failed!", displayName(current) .. ": " .. reason, 8000)
 		end
 		render()
 	end, 20000)
@@ -240,11 +240,14 @@ render = function()
 		end
 	end
 	if #rows == 0 then
-		table.insert(rows, ui.label({
-			key = "empty",
-			text = "No removable drives connected.",
-			color = "on_surface_variant",
-		}))
+		table.insert(
+			rows,
+			ui.label({
+				key = "empty",
+				text = "No removable drives connected.",
+				color = "on_surface_variant",
+			})
+		)
 	end
 
 	panel.render(ui.column({ flexGrow = 1, gap = 8, align = "stretch" }, {
