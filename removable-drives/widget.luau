@@ -167,7 +167,7 @@ local function notifyNewDevices(devices)
 	for _, device in ipairs(devices) do
 		currentPaths[device.path] = true
 		if sawInitialSnapshot and not knownPaths[device.path] then
-			notifySend(ICON_DETECTED, "Drive", (device.label or device.path) .. " detected!")
+			notifySend(ICON_DETECTED, "New drive detected", (device.label or device.path) .. " detected!")
 		end
 	end
 	knownPaths = currentPaths
