@@ -164,7 +164,7 @@ local function unmountDevice(path)
 			local name = displayName(current)
 			current.mounted = false
 			current.mountpoint = nil
-			notifySend(ICON_UNMOUNT, "Drive can be safely removed:", name)
+			notifySend(ICON_UNMOUNT, "Drive unmounted", "You can now safely unplug " .. name .. ".")
 		else
 			local reason = trim(result.stderr)
 			if reason == "" then
