@@ -8,7 +8,6 @@
 -- reality either way, so an unmount never makes a device disappear from this
 -- list on its own — only lsblk no longer reporting it does that.
 
-local ICON_MOUNT = "drive-removable-media"
 local ICON_UNMOUNT = "media-eject"
 local ICON_ERROR = "dialog-error"
 
@@ -131,11 +130,6 @@ local function mountDevice(path)
 			local mountpoint = (result.stdout or ""):match("at%s+(.-)%.?%s*$")
 			current.mounted = true
 			current.mountpoint = mountpoint
-			local body = displayName(current)
-			if mountpoint ~= nil then
-				body = body .. " at " .. mountpoint
-			end
-			notifySend(ICON_MOUNT, "Filesystem mounted", body)
 		else
 			local reason = trim(result.stderr)
 			if reason == "" then
