@@ -64,8 +64,31 @@ local ESP_PARTTYPE_GUID = "c12a7328-f81f-11d2-ba4b-00a0c93ec93b"
 local MOUNTED_GLYPH_COLOR = "tertiary"
 local UNMOUNTED_GLYPH_COLOR = "on_surface" -- the documented default/unset role
 
+-- Same freedesktop icon name panel.luau's old mount-success notification used
+-- (notify-send resolves icon *names* against the system icon theme, not the
+-- tabler glyph font the bar/panel use, so this is unrelated to BAR_GLYPH).
+local ICON_DETECTED = "drive-removable-media"
+
 local function isNonEmptyString(value)
 	return type(value) == "string" and value ~= ""
+end
+
+local function shellQuote(value)
+	return "'" .. tostring(value):gsub("'", "'\\''") .. "'"
+end
+
+local function notifySend(icon, title, body, timeoutMs)
+	local cmd = "notify-send -u low -t "
+		.. tostring(timeoutMs or 5000)
+		.. " -a "
+		.. shellQuote("Noctalia")
+		.. " -i "
+		.. shellQuote(icon)
+		.. " "
+		.. shellQuote(title)
+		.. " "
+		.. shellQuote(body or "")
+	noctalia.runAsync(cmd)
 end
 
 local function isEsp(part)
@@ -131,6 +154,26 @@ local function anyMounted(devices)
 	return false
 end
 
+-- Tracks devices seen on the previous successful refresh so a notification
+-- fires only for a path that genuinely just appeared, not for ones already
+-- present. sawInitialSnapshot suppresses notifying for every drive that was
+-- already plugged in at plugin load/reload — "detected" should mean "just
+-- plugged in", not "the shell restarted while this was already connected".
+local knownPaths = {}
+local sawInitialSnapshot = false
+
+local function notifyNewDevices(devices)
+	local currentPaths = {}
+	for _, device in ipairs(devices) do
+		currentPaths[device.path] = true
+		if sawInitialSnapshot and not knownPaths[device.path] then
+			notifySend(ICON_DETECTED, "Removable Drives", (device.label or device.path) .. " detected")
+		end
+	end
+	knownPaths = currentPaths
+	sawInitialSnapshot = true
+end
+
 local function updateTooltip(devices)
 	if #devices == 0 then
 		barWidget.clearTooltip()
@@ -154,6 +197,7 @@ local function refresh()
 		end
 		local data = noctalia.json.decode(result.stdout or "")
 		local devices = parseDevices(data)
+		notifyNewDevices(devices)
 		noctalia.state.set("devices", devices)
 		barWidget.setVisible(#devices > 0)
 		barWidget.setGlyphColor(anyMounted(devices) and MOUNTED_GLYPH_COLOR or UNMOUNTED_GLYPH_COLOR)
