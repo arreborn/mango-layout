@@ -1,0 +1,38 @@
+id           = "arreborn/removable-drives"
+name         = "Removable Drives"
+version      = "1.0.0"
+plugin_api   = 22
+min_noctalia = "5.0.0"
+author       = "arreborn"
+license      = "MIT"
+icon         = "usb"
+description  = "Detects removable partitions and lets you mount/unmount them from the bar."
+
+[[widget]]
+id    = "drives"
+entry = "widget.luau"
+
+  [[widget.setting]]
+  key              = "terminal_command"
+  type             = "string"
+  label_key        = "settings.terminal_command.label"
+  description_key  = "settings.terminal_command.description"
+  default          = "ghostty -e"
+
+# Plugin panels have no content-based dynamic sizing in this Noctalia build —
+# width/height are fixed at construction from these values (or a 480x400 host
+# default if omitted) and are never recomputed from the rendered ui tree
+# (confirmed against src/shell/panel/plugin_panel.{h,cpp}: m_preferredWidth/
+# m_preferredHeight are set once in the constructor and preferredWidth()/
+# preferredHeight() just return them, unchanged by panel.render()). height
+# here is sized for ~5 device rows (5 x Style::controlHeight (38) + 4 row
+# gaps (4) + 2 x Style::panelPadding (14) chrome ~= 234, rounded up) so a
+# typical device count needs no scrolling; panel.luau wraps the row list in
+# ui.scroll so anything beyond 5 rows scrolls instead of overflowing.
+[[panel]]
+id              = "panel"
+entry           = "panel.luau"
+width           = 280
+height          = 250
+placement       = "attached"
+open_near_click = true

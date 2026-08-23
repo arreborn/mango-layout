@@ -10,3 +10,16 @@ description  = "Launcher provider for switching Mango window manager layouts."
 deprecated   = false
 plugin_api   = 13
 tags         = ["mango", "layout", "wm"]
+
+[[plugin]]
+id           = "arreborn/removable-drives"
+name         = "Removable Drives"
+author       = "arreborn"
+version      = "1.0.0"
+min_noctalia = "5.0.0"
+license      = "MIT"
+icon         = "usb"
+description  = "Detects removable partitions and lets you mount/unmount them from the bar."
+deprecated   = false
+plugin_api   = 22
+tags         = ["storage", "usb", "mount"]
