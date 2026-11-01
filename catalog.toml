@@ -23,3 +23,16 @@ description  = "Detects removable partitions and lets you mount/unmount them fro
 deprecated   = false
 plugin_api   = 22
 tags         = ["storage", "usb", "mount"]
+
+[[plugin]]
+id           = "arreborn/p3-radio"
+name         = "P3 Radio"
+author       = "arreborn"
+version      = "1.0.0"
+min_noctalia = "5.0.0"
+license      = "MIT"
+icon         = "radio"
+description  = "Bar toggle for the live Sveriges Radio P3 stream, with now-playing info on hover."
+deprecated   = false
+plugin_api   = 22
+tags         = ["radio", "audio", "p3"]
