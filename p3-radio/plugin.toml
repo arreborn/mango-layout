@@ -1,0 +1,13 @@
+id           = "arreborn/p3-radio"
+name         = "P3 Radio"
+version      = "1.0.0"
+plugin_api   = 22
+min_noctalia = "5.0.0"
+author       = "arreborn"
+license      = "MIT"
+icon         = "radio"
+description  = "Bar toggle for the live Sveriges Radio P3 stream, with now-playing info on hover."
+
+[[widget]]
+id    = "radio"
+entry = "widget.luau"
