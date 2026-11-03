@@ -1,8 +1,0 @@
-{
-  "settings": {
-    "terminal_command": {
-      "label": "Terminal command",
-      "description": "Command used to open a mounted drive's folder in a terminal, e.g. \"ghostty -e\"."
-    }
-  }
-}

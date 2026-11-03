@@ -1,26 +1,18 @@
 -- Removable Drives — mount/unmount panel.
 --
--- The device list comes from widget.luau's lsblk poll, published through
--- noctalia.state (this script never runs lsblk itself). Mount/unmount goes
+-- The device list comes from service.luau through noctalia.state (this
+-- script never runs lsblk itself). Mount/unmount goes
 -- through udisksctl, with the local copy of the clicked device updated
 -- optimistically so the row flips state immediately instead of waiting for
--- the next poll; the next state update from the widget reconciles it with
+-- the next poll; the next state update from the service reconciles it with
 -- reality either way, so an unmount never makes a device disappear from this
 -- list on its own — only lsblk no longer reporting it does that.
 
 local ICON_UNMOUNT = "media-eject"
 local ICON_ERROR = "dialog-error"
 
--- Per-row glyph reflecting which detection bucket a device fell into (see
--- widget.luau's `category` tagging): "rm" is a confirmed removable device
--- (RM==true own or inherited — e.g. a flash drive); "usb" only qualified via
--- TRAN=="usb" with RM==false (e.g. a larger external HDD enclosure whose
--- bridge chip doesn't report itself removable). Both names are confirmed
--- present in the tabler set AND confirmed to actually render live in this
--- panel — unlike "device-usb" (see widget.luau's BAR_GLYPH comment: its
--- codepoint falls in a Unicode range that the host's text shaping silently
--- blanks), "usb" and "server-2" both sit in the Private Use Area and render
--- correctly.
+-- Per-row glyph by service.luau's `category`: "rm" for a confirmed removable
+-- device (flash drive), "usb" for one that only qualified via TRAN=="usb".
 local GLYPH_RM = "usb"
 local GLYPH_USB = "server-2"
 
@@ -46,17 +38,19 @@ local function displayName(device)
 end
 
 local function notifySend(icon, title, body, timeoutMs)
-	local cmd = "notify-send -u low -t "
-		.. tostring(timeoutMs or 5000)
-		.. " -a "
-		.. shellQuote("Noctalia")
-		.. " -i "
-		.. shellQuote(icon)
-		.. " "
-		.. shellQuote(title)
-		.. " "
-		.. shellQuote(body or "")
-	noctalia.runAsync(cmd)
+	noctalia.runAsync({
+		"notify-send",
+		"-u",
+		"low",
+		"-t",
+		tostring(timeoutMs or 5000),
+		"-a",
+		"Noctalia",
+		"-i",
+		icon,
+		title,
+		body or "",
+	})
 end
 
 local function applyDeviceList(list)
@@ -87,24 +81,13 @@ local function applyDeviceList(list)
 	render()
 end
 
-local function terminalCommand()
-	local value = noctalia.state.get("terminal_command")
-	if type(value) == "string" and value ~= "" then
-		return value
-	end
-	return "ghostty -e"
-end
-
+-- runInTerminal runs the command through `sh -lc` in $TERMINAL, so the mount
+-- point is quoted exactly once, for that shell.
 local function openTerminal(mountpoint)
 	if type(mountpoint) ~= "string" or mountpoint == "" then
 		return
 	end
-	local shell = noctalia.getenv("SHELL")
-	if type(shell) ~= "string" or shell == "" then
-		shell = "bash"
-	end
-	local cmd = terminalCommand() .. " " .. shell .. ' -c "cd ' .. shellQuote(mountpoint) .. " && exec " .. shell .. '"'
-	noctalia.runAsync(cmd)
+	noctalia.runInTerminal("cd " .. shellQuote(mountpoint) .. ' && exec "${SHELL:-sh}"')
 end
 
 local function mountDevice(path)
@@ -118,8 +101,7 @@ local function mountDevice(path)
 	end
 	busyPaths[path] = true
 	render()
-	local cmd = "udisksctl mount -b " .. shellQuote(path) .. " --no-user-interaction"
-	noctalia.runAsync(cmd, function(result)
+	noctalia.runAsync({ "udisksctl", "mount", "-b", path, "--no-user-interaction" }, function(result)
 		busyPaths[path] = nil
 		local current = devicesByPath[path]
 		if current == nil then
@@ -152,8 +134,7 @@ local function unmountDevice(path)
 	end
 	busyPaths[path] = true
 	render()
-	local cmd = "udisksctl unmount -b " .. shellQuote(path)
-	noctalia.runAsync(cmd, function(result)
+	noctalia.runAsync({ "udisksctl", "unmount", "-b", path }, function(result)
 		busyPaths[path] = nil
 		local current = devicesByPath[path]
 		if current == nil then
@@ -187,6 +168,7 @@ local function deviceLabelNode(device)
 			flexGrow = 1,
 			onClick = function()
 				openTerminal(device.mountpoint)
+				panel.close()
 			end,
 		})
 	end

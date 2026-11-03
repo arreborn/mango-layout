@@ -27,13 +27,10 @@ clicking it opens the panel.
 (falling back to its device path if unlabeled), each with a Mount/Unmount
 button. Plugging a drive in never mounts it automatically — press Mount to
 mount it. Once mounted, the drive's label is also clickable and opens the
-mount path in a terminal. Unmounting only unmounts the filesystem (no
+mount path in a terminal (`$TERMINAL`, or the first terminal Noctalia
+finds). Unmounting only unmounts the filesystem (no
 power-off/eject); the drive stays listed so it can be remounted without
 unplugging it, until it is physically removed.
-
-**Settings**: the terminal command used when opening a mounted drive's
-folder (`terminal_command`, default `ghostty -e`) can be changed from the
-plugin's settings page.
 
 ## Install
 
