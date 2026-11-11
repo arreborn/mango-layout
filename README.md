@@ -4,8 +4,6 @@ A small collection of plugins for Noctalia v5:
 
 - [`removable-drives`](removable-drives/README.md): bar icon and panel for
   mounting/unmounting removable drives.
-- [`p3-radio`](p3-radio/README.md): bar toggle for the live Sveriges Radio P3
-  stream.
 
 ## Disclaimer
 
